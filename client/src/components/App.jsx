@@ -1,7 +1,7 @@
 import React from 'react';
 
 const App = () => {
-  return <div>TwichLite</div>;
+  return <div>TwitchLite</div>;
 };
 
 export default App;

@@ -4,6 +4,11 @@ import { signIn, signOut } from '../actions';
 import { GOOGLE_CLIENT_ID } from '../config/googleAuthCredential';
 
 class GoogleAuth extends React.Component {
+  // The reason we're putting null here is that we do not know, if the user is
+  // signed in or not signed in when our application first loads
+  // We probably should not print anything on the screen at that point in time
+  state = { isSignedIn: null };
+
   /* @ Initialize the library */
   // Anytime that our component is rendered onto the screen, we're going to
   // load up the client portion of the library
@@ -49,12 +54,8 @@ class GoogleAuth extends React.Component {
           // the user is currently signedin and then attempt to print out that
           // status the screen.
           this.auth = window.gapi.auth2.getAuthInstance();
-
-          // update auth state inside of our redux store
-          this.onAuthChange(this.auth.isSignedIn.get());
+          this.setState({ isSignedIn: this.auth.isSignedIn.get() });
           // .get and .listen exists on the prototype of the auth object
-          // sit around and wait for that authentication status to change it
-          // at some point in the future
           this.auth.isSignedIn.listen(this.onAuthChange);
         });
     });
@@ -85,9 +86,9 @@ class GoogleAuth extends React.Component {
   };
 
   renderAuthButton() {
-    if (this.props.isSignedIn === null) {
+    if (this.state.isSignedIn === null) {
       return null;
-    } else if (this.props.isSignedIn) {
+    } else if (this.state.isSignedIn) {
       return (
         <button onClick={this.onSignOutClick} className='ui red google button'>
           <i className='google icon' />
@@ -109,8 +110,4 @@ class GoogleAuth extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { isSignedIn: state.auth.isSignedIn };
-};
-
-export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth);
+export default connect(null, { signIn, signOut })(GoogleAuth);

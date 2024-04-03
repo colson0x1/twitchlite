@@ -1,3 +1,5 @@
+import { SIGN_IN, SIGN_OUT } from '../actions/types';
+
 // export default (state = {}, action) => {}
 // Using empty object as the initial state instead of default values like
 // true, false or null because in truth, we will have one other property
@@ -26,9 +28,9 @@ const INITIAL_STATE = {
 // INITIAL_STATE
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SIGN_IN':
+    case SIGN_IN:
       return { ...state, isSignedIn: true };
-    case 'SIGN_OUT':
+    case SIGN_OUT:
       return { ...state, isSignedIn: false };
     default:
       return state;

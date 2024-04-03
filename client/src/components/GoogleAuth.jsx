@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
+import { GOOGLE_CLIENT_ID } from '../config/googleAuthCredential';
 
 class GoogleAuth extends React.Component {
   // The reason we're putting null here is that we do not know, if the user is
@@ -40,8 +41,7 @@ class GoogleAuth extends React.Component {
       window.gapi.client
         .init({
           // initialize authentication client with clientId
-          clientId:
-            '11733010542-qo71645n5bbqsfardrvkf1idsgdo5afi.apps.googleusercontent.com',
+          clientId: GOOGLE_CLIENT_ID,
           // ask for the scope of email
           scope: 'email',
           // in order to use the Google Platform API, we have to pass a plugin_name

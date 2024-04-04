@@ -18,6 +18,8 @@ import { SIGN_IN, SIGN_OUT } from '../actions/types';
 // any circumstance whatsoever.
 const INITIAL_STATE = {
   isSignedIn: null,
+  // with the value of null, means we don't currently have the user id
+  userId: null,
 };
 
 // The idea here with the default argument here is, when our
@@ -29,9 +31,11 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGN_IN:
-      return { ...state, isSignedIn: true };
+      return { ...state, isSignedIn: true, userId: action.payload };
     case SIGN_OUT:
-      return { ...state, isSignedIn: false };
+      // when the user's signs out, they do not want to be associated with our
+      // application anymore
+      return { ...state, isSignedIn: false, userId: null };
     default:
       return state;
   }

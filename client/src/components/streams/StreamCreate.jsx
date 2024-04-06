@@ -62,8 +62,12 @@ class StreamCreate extends React.Component {
     // we can show those errors underneath each inputs
     // console.log('renderInput called: meta prop -', meta);
 
+    // if the div with the className field has also the className error on it,
+    // then the entire text input and the label are gonna show up as red as well
+    const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+
     return (
-      <div className='field ui form'>
+      <div className={className}>
         <label>{label}</label>
         <input {...input} autoComplete='off' />
         {this.renderError(meta)}
@@ -100,8 +104,15 @@ class StreamCreate extends React.Component {
     // So in relality, handleSubmit is going to be called and once it processes
     // the form event and all that good stuff, our callback then gets invoked
     // with our actual form values that we care about.
+
+    /* need to add className of error on form so that semantic ui shows error
+     * and remove the default behavior of display property none for errors */
+
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <form
+        onSubmit={this.props.handleSubmit(this.onSubmit)}
+        className='ui form error'
+      >
         <Field name='title' component={this.renderInput} label='Enter Title' />
         <Field
           name='description'

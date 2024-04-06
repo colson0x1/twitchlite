@@ -11,6 +11,19 @@ import { Field, reduxForm } from 'redux-form';
 // going to eventually want to have a bunch of helper methods so we kind kindof
 // better organize our code inside of here!
 class StreamCreate extends React.Component {
+  // this is going to be called with `meta` object
+  renderError({ error, touched }) {
+    // if user has touched the form and there is an error message, return
+    // some error message to show to the user
+    if (touched && error) {
+      return (
+        <div className='ui error message'>
+          <div className='header'>{error}</div>
+        </div>
+      );
+    }
+  }
+
   // @ renderInput()
   // Anytime the Field tag calls `this.renderInput`, its gonna pass in some
   // number of arguments here on this renderInput which we named as formProps
@@ -34,14 +47,29 @@ class StreamCreate extends React.Component {
       //   <input {...input} />
       // }
     */
-  renderInput({ input, label }) {
+
+  // renderInput is a function that we pass off to some other component
+  // i.e <Field name='title' component={this.renderInput} label='..' />
+  // So when renderInput is called, its going to be called with a unknown
+  // value of `this`. In another words, the keyword `this` inside of renderInput
+  // function on {this.renderError(meta)} is going to be unknown to us. It might
+  // be undefined, it might be null, it might be some other component, who knows.
+  // But its definately not the context that we want for our component.
+  // So to fix this, we turn renderInput to arrow function to bind context of `this`
+  renderInput = ({ input, label, meta }) => {
+    // there's a error property on object received by meta props which contains
+    // the error message i.e meta.error
+    // we can show those errors underneath each inputs
+    // console.log('renderInput called: meta prop -', meta);
+
     return (
       <div className='field ui form'>
         <label>{label}</label>
-        <input {...input} />
+        <input {...input} autoComplete='off' />
+        {this.renderError(meta)}
       </div>
     );
-  }
+  };
 
   onSubmit(formValues) {
     // No longer we're dealing with event object as our argument here.
@@ -89,9 +117,29 @@ class StreamCreate extends React.Component {
 // This is not a function we're going to define inside of our component class
 // So defining outside of Component Class
 // formValues is going to contain all the different values inside of our form
-// This validate function will called by Redux Form for every interactions
-// to the form like selecting the fields, editing the fields on every keystroke,
-// like that.
+// This validate function will called by Redux Form when form is initially
+// rendered!
+// And also it will be called, for every interactions or keystrokes
+// to the form like selecting the fields, editing the fields, like that.
+// IF WE RETURN an object from the validate function,
+// then Redux Form is going to automatically rerender our Component!
+// To actually get these error messages to appear on the screen, Redux Form
+// is going to take a look at every Field component that gets rendered.
+// Its going to look at each Field's name property and then its going to look
+// at the errors object that we return from validate function!!
+// If a Field has a same name as a property that exists inside that error object,
+// then Redux Form is going to take that error message and pass it to our
+// renderInput fucntion (this.renderInput function on <Field />) for each
+// Field that gets created
+
+// In simple, the general idea here is that errors object has some properties
+// on it that have an identical name to whatever names we provided to the
+// field properties (i.e on <Field ... />),
+// so if the error object has a property name that is identical to the `name`
+// in the field property like `title` and `description` here, and it contains
+// a string that error message will be passed down to this renderInput
+// function
+// i.e here, <Field name='title' component={this.renderInput} label='..' />
 const validate = (formValues) => {
   // If the input field is invalid, for each invalid field, return an
   // error object with key-value pair on the object with NAME of the field
@@ -110,6 +158,11 @@ const validate = (formValues) => {
   return errors;
 };
 
+// NOTE: after creating validate function, we need to make sure that this
+// validate function gets wired up to Redux Form so that it knows to use the
+// validate function!
+// We pass that to the reduxForm helper down here on a key called `validate`
+
 // reduxForm is going to return a function and we immediately call that function
 // with StreamCreate
 // reduxForm receives a single object and we put bunch of configuration into
@@ -117,4 +170,5 @@ const validate = (formValues) => {
 export default reduxForm({
   // name of this `form` is generally whatever the purpose of the form is
   form: 'streamCreate',
+  validate,
 })(StreamCreate);

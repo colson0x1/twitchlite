@@ -11,12 +11,48 @@ import { Field, reduxForm } from 'redux-form';
 // going to eventually want to have a bunch of helper methods so we kind kindof
 // better organize our code inside of here!
 class StreamCreate extends React.Component {
+  // @ renderInput()
+  // Anytime the Field tag calls `this.renderInput`, its gonna pass in some
+  // number of arguments here on this renderInput which we named as formProps
+  // function renderInput(formProps) {}
+  // console.log(formProps);
+  /*
+      <input
+        onChange={formProps.input.onChange}
+        value={formProps.input.value}
+      />
+      // input shorthand 
+      // <input {...formProps.input} />
+      // Anytime that we make use of Redux Form, we're always going to use the
+      // syntax because there are some other properties inside that input 
+      // object besides just the value one, and the onChange one, that Redux
+      // Form cares about
+      //
+      // Further shorthand, we can destructure the input argument out of the
+      // formProps object
+      // renderInput({ input }) {
+      //   <input {...input} />
+      // }
+    */
+  renderInput({ input, label }) {
+    return (
+      <div className='field ui form'>
+        <label>{label}</label>
+        <input {...input} />
+      </div>
+    );
+  }
+
   render() {
     // console.log('StreamCreate', this.props);
     return (
       <form>
-        <Field name='title' />
-        <Field name='description' />
+        <Field name='title' component={this.renderInput} label='Enter Title' />
+        <Field
+          name='description'
+          component={this.renderInput}
+          label='Enter Description'
+        />
       </form>
     );
   }

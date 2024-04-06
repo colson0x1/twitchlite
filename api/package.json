@@ -1,0 +1,22 @@
+{
+  "name": "twitchlite-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server -p 4000 -w db.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colson0x1/twitchlite.git"
+  },
+  "author": "COLSON",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/colson0x1/twitchlite/issues"
+  },
+  "homepage": "https://github.com/colson0x1/twitchlite#readme",
+  "dependencies": {
+    "json-server": "^1.0.0-alpha.23"
+  }
+}

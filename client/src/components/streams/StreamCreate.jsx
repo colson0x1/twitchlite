@@ -86,6 +86,30 @@ class StreamCreate extends React.Component {
   }
 }
 
+// This is not a function we're going to define inside of our component class
+// So defining outside of Component Class
+// formValues is going to contain all the different values inside of our form
+// This validate function will called by Redux Form for every interactions
+// to the form like selecting the fields, editing the fields on every keystroke,
+// like that.
+const validate = (formValues) => {
+  // If the input field is invalid, for each invalid field, return an
+  // error object with key-value pair on the object with NAME of the field
+  // and the erro message
+  const errors = {};
+
+  if (!formValues.title) {
+    // only run if the user did not enter a title
+    errors.title = 'You must enter a title';
+  }
+
+  if (!formValues.description) {
+    errors.description = 'You must enter a description';
+  }
+
+  return errors;
+};
+
 // reduxForm is going to return a function and we immediately call that function
 // with StreamCreate
 // reduxForm receives a single object and we put bunch of configuration into

@@ -6,6 +6,8 @@ import React from 'react';
 // call some action creator and get some form data into our component. Cool thing
 // is that all happens automatically
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
 
 // The reason we're going to make this Class based Component is that we're
 // going to eventually want to have a bunch of helper methods so we kind kindof

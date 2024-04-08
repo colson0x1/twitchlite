@@ -1,3 +1,14 @@
 {
-  "streams": []
+  "streams": [
+    {
+      "id": "c4f6",
+      "title": "My Stream",
+      "description": "This is a great stream."
+    },
+    {
+      "id": "fc76",
+      "title": "Grinding on TypeMuse",
+      "description": "100 WPM in action"
+    }
+  ]
 }

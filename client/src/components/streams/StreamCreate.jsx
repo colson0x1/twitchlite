@@ -77,7 +77,7 @@ class StreamCreate extends React.Component {
     );
   };
 
-  onSubmit(formValues) {
+  onSubmit = (formValues) => {
     // No longer we're dealing with event object as our argument here.
     // The event object is really not useful to us one bit
     // The only reason we dealt with the event object is so that we can call
@@ -85,6 +85,7 @@ class StreamCreate extends React.Component {
     // Instead now its going to get called with all the values out of our form
     // inside of an object
     console.log(formValues);
+    this.props.createStream(formValues);
   }
 
   render() {
@@ -180,8 +181,11 @@ const validate = (formValues) => {
 // with StreamCreate
 // reduxForm receives a single object and we put bunch of configuration into
 // that object
-export default reduxForm({
+
+const formWrapped = reduxForm({
   // name of this `form` is generally whatever the purpose of the form is
   form: 'streamCreate',
   validate,
 })(StreamCreate);
+
+export default connect(null, { createStream })(formWrapped);

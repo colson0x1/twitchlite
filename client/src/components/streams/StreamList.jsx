@@ -12,11 +12,29 @@ class StreamList extends React.Component {
     this.props.fetchStreams();
   }
 
+  // naming renderAdmin because the two buttons edit and delete on stream list
+  // are kind of like administrative buttons. they are administrating over the
+  // stream and they allow the user to edit and delete the stream
+  // So whenever this renderAdmin function gets called, we're going to pass in
+  // the stream, that we're currently interating over.
+  // We're going to eventually call renderAdmin from the body of our map function
+  renderAdmin(stream) {
+    if (stream.userId === this.props.currentUserId) {
+      return (
+        <div className='right floated content'>
+          <button className='ui button primary'>Edit</button>
+          <button className='ui button negative'>Delete</button>
+        </div>
+      );
+    }
+  }
+
   // Take that list of streams and just render them out as a list on the screen
   renderList() {
     return this.props.streams.map((stream) => {
       return (
         <div className='item' key={stream.id}>
+          {this.renderAdmin(stream)}
           <i className='large middle aligned icon camera' />
           <div className='content'>
             {stream.title}
@@ -71,7 +89,13 @@ const mapStateToProps = (state) => {
   // Now inside of our Component, we're going to have a prop called
   // this.props.streams and that's going to be an array of all of our different
   // streams.
-  return { streams: Object.values(state.streams) };
+  return {
+    streams: Object.values(state.streams),
+    // currentUserId is better naming than just userId because it makes it a little
+    // bit more obvious that this is the id of the person was currently signed in and
+    // using the application.
+    currentUserId: state.auth.userId,
+  };
 };
 
 export default connect(mapStateToProps, { fetchStreams })(StreamList);

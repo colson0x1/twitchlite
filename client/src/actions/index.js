@@ -24,9 +24,28 @@ export const signOut = () => {
 
 // This is going to be called with list of all those different values that
 // we entered into our stream create form as an argument
-export const createStream = (formValues) => async (dispatch) => {
+// When we return a function from action creator, the function gets called
+// automatically by Redux Thunk with two arguments:
+// The first argument is the dispatch function but it also gets called with a
+// second argument as well. And that second argument is the getState function.
+// The getState function allows us to reach into the Redux Store and pull out
+// some piece of information.
+// In this case, its going to allows us to pull out the userId from auth state
+export const createStream = (formValues) => async (dispatch, getState) => {
+  // getState is giong to return an entire state object
+  // here we're accessing that auth piece of state on there and just pluck
+  // out the userId
+  // If we don't remember structure of our Redux store, we can go to the
+  // Redux Dev Tools and click on the little state button and we'll see
+  // all of our state!
+  const { userId } = getState().auth;
   // handle on the stream that just got created
-  const response = await streams.post('/streams', formValues);
+  // take all the key value pairs out of formValues and add it to that object
+  // using spread, and then we're also going to add in userId like so
+  // So now when we post a new stream to our api, we're goint to posting up
+  // all the values that out of our form along with the id of the user who
+  // just created that stream as well.
+  const response = await streams.post('/streams', { ...formValues, userId });
 
   // The response object we get back from axios has turn of information
   // about the response. But we only care about the information that was

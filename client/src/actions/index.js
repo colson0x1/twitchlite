@@ -83,6 +83,16 @@ export const editStream = (id, formValues) => async (dispatch) => {
   const response = await streams.put(`/streams/${id}`, formValues);
 
   dispatch({ type: EDIT_STREAM, payload: response.data });
+  // When we submit the form, the expection is that we're going to make a
+  // request and then hopefully give our users some feedback. Essentially
+  // tell them that something has changed or maybe transition them or navigate
+  // them to some other page inside of our application
+  // So like with create stream action creator, we're going to do the same thing here on
+  // edit stream i.e after we make the request and dispatch an action,
+  // we're then going to
+  // forciably navigate our user back to the root route of our application i.e
+  // main list of streams
+  history.push('/');
 };
 
 // Delete a stream

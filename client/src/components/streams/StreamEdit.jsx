@@ -9,8 +9,15 @@ class StreamEdit extends React.Component {
     this.props.fetchStream(this.props.match.params.id);
   }
 
+  // whenever onSubmit right here gets called with our brand new title and
+  // description inside that formValues object, call some appropriate action
+  // creator
   onSubmit = (formValues) => {
     console.log(formValues);
+    // editStream as defined on actions/index.js takes stream id as the
+    // first argument and changed formValues as the second argument so that's
+    // going to be formValues object right there
+    this.props.editStream(this.props.match.params.id, formValues);
   };
 
   render() {
@@ -51,6 +58,8 @@ class StreamEdit extends React.Component {
          * instead of sending all the properties, we just send the title,
          * and description that we care about and pass that as initial values
          * to our form
+         * in essence, formValues object is really just supposed to be the
+         * change properties of the stream
          */}
         <StreamForm
           // initialValues={{ title: 'EDIT ME', description: 'CHANGE ME TOO' }}
@@ -70,6 +79,7 @@ class StreamEdit extends React.Component {
           // Now, we only have title and description loaded to our Redux form
           // pick() creates a new object and it doesn't modify original object
           initialValues={_.pick(this.props.stream, 'title', 'description')}
+          onSubmit={this.onSubmit}
         />
       </div>
     );

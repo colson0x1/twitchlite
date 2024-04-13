@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+
 class StreamForm extends React.Component {
   renderError({ error, touched }) {
     if (touched && error) {

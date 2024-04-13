@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchStream, editStream } from '../../actions';
@@ -32,11 +33,43 @@ class StreamEdit extends React.Component {
           with a description and so those initial values are used as the initial
           values for field number and field number two.
         */}
+
+        {/* streamForm: values
+          // initialValues={this.props.stream}
+          // Doing that will submit all the properties that aren't required 
+          // We can check at: Redux Dev Tools: on Edit Stream component
+          // form > streamForm > values > title, description, userId, id
+         * there are 4 properties: title, description, userId and id
+         * when we submit stream edit form where just title and description
+         * will be sent, Redux form is going to pass along userId and id.
+         * i.e Our form is supposed to have a field for userId and for id as well,  
+         * and when we submit this form, Redux form is going to pass along that
+         * userId and the id which again is not the worst thing for this application
+         * but is really not appropriate to try to eventually submit to
+         * some backend api
+         * so on the prop: initialValues
+         * instead of sending all the properties, we just send the title,
+         * and description that we care about and pass that as initial values
+         * to our form
+         */}
         <StreamForm
           // initialValues={{ title: 'EDIT ME', description: 'CHANGE ME TOO' }}
           // stream is an object with title and description property
-          initialValues={this.props.stream}
-          onSubmit={this.onSubmit}
+          // Long story short, essentially we only want to pass in an object
+          // here with a title and description. Just the properties we're
+          // trying to change
+          // one way to write:
+          // intitialValues={{
+          //   title: this.props.stream.title,
+          //   description: this.props.stream.description,
+          // }}
+          // another concise way to write:
+          // using a lodash function .pick(), we pass in a list of all the
+          // different properties that we want to essentially pull out of that
+          // object and pass down to initial values
+          // Now, we only have title and description loaded to our Redux form
+          // pick() creates a new object and it doesn't modify original object
+          initialValues={_.pick(this.props.stream, 'title', 'description')}
         />
       </div>
     );

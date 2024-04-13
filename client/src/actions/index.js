@@ -1,4 +1,5 @@
 import streams from '../apis/streams';
+import history from '../history';
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -31,6 +32,9 @@ export const signOut = () => {
 // The getState function allows us to reach into the Redux Store and pull out
 // some piece of information.
 // In this case, its going to allows us to pull out the userId from auth state
+
+// Now we got history object, which means we can trigger direct navigation or
+// programmatic navigation from our createStream action creator
 export const createStream = (formValues) => async (dispatch, getState) => {
   // getState is giong to return an entire state object
   // here we're accessing that auth piece of state on there and just pluck
@@ -51,7 +55,10 @@ export const createStream = (formValues) => async (dispatch, getState) => {
   // about the response. But we only care about the information that was
   // returned inside the request. So, returning `response.data`
   dispatch({ type: CREATE_STREAM, payload: response.data });
-  // Do some programmatic navigation to get the user back to the root route
+  // Programatically navigate the user back to the root route
+  // push() is how we navigate the user around. it takes the string of the
+  // path that we want user to go to
+  history.push('/');
 };
 
 // List all records i.e streams

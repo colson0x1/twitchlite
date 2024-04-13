@@ -51,6 +51,7 @@ export const createStream = (formValues) => async (dispatch, getState) => {
   // about the response. But we only care about the information that was
   // returned inside the request. So, returning `response.data`
   dispatch({ type: CREATE_STREAM, payload: response.data });
+  // Do some programmatic navigation to get the user back to the root route
 };
 
 // List all records i.e streams

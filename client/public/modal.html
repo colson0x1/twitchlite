@@ -1,0 +1,93 @@
+<head>
+  <style>
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 300px;
+      background-color: dodgerblue;
+    }
+
+    .content {
+      margin-left: 300px;
+    }
+
+    .modal-body {
+      background-color: white;
+      margin: auto;
+      height: 30%;
+      width: 30%;
+    }
+
+    .modal {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      background-color: grey;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+
+    .positioned {
+      position: relative;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Outer div i.e modal is supposed to show grey background that's going to 
+  obscure all the content behind it
+  The inner div i.e modal-body is meant to represent the actual kind of white
+  window or sorts that's gonna show some content inside of it 
+  So usually we put these modals together with the separate elements, one for
+  the background, one for the foreground. -->
+
+  <!-- It might conflict with the z-index stacking context created by CSS. 
+  Because there are hundreds of components in a react app and few might render
+  modals multiple times and say we want to change the color something or if we
+  render one, it might not work as expected due to stacking context.  -->
+
+  <!-- render portal as the direct child of body not as a direct child of other 
+  component that's going to render which is nested deep within the div of id
+
+  A portal allows us to render some element not as a direct child. We can 
+  instead render that element with that component as a child of some other 
+  element inside of our html structure most commonly the body. 
+
+  Why we would want to do this at all? 
+  We would do this to get around all this rules of stacking context or trying 
+  to show the modal or css issues or stuff like that. There are many different 
+  scenarios, modals are just one of them but its the easiest one to show where 
+  we might want to render some element or some component as a child of some 
+  other element inside of our application as opposed to just a direct child 
+  of some given component.
+
+  So now if we render the modal as a direct child of the body, we can set any 
+  z-index that we want like z-index 999. We will not run into that same 
+  stacking context issue. It will be totally fine. The modal will show 
+  correctly and not conflict with any other element inside of our application.
+  -->
+  <!--
+  <div class="positioned">
+    <div class="modal">
+      <div class="modal-body">
+        <h1>I am a modal</h1>
+      </div>
+    </div>
+  </div>
+  -->
+  <!-- making modal direct child of body instead of positioned -->
+  <div class="modal">
+    <div class="modal-body">
+      <h1>I am a modal</h1>
+    </div>
+  </div>
+  <div class="positioned"></div>
+
+  <div class="sidebar">I am a sidebar</div>
+  <div class="content">
+    <h1>I am some content</h1>
+  </div>
+</body>

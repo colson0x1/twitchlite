@@ -80,7 +80,31 @@ export const fetchStream = (id) => async (dispatch) => {
 export const editStream = (id, formValues) => async (dispatch) => {
   // pass id + make sure we communicate the update that we want to make
   // on the body of the request
-  const response = await streams.put(`/streams/${id}`, formValues);
+
+  /*
+   * In rest convention, put request has actually has little sideeffect to it
+   * that is very commonly not well implemented on the backend apis
+   * When we make a put request, the actual thing that happens is whatever
+   * properties we put inside the body of that request are going to replace
+   * all the properties inside of the record that we're trying to update.
+   * We're technically supposed to make sure that a put request is going to
+   * replace or update all properties of a record which could potentially
+   * lead to deleting properties off a record on the api.
+   * If we really want to just update some properties, we're actually
+   * supposed to use a different type of request called a patch request.
+   * So with patch request, we're going to pass some properties inside the
+   * body of the request that are supposed to be updated on the api.
+   * And with patch request just those properties are going to be updated.
+   * its not essentially an overwriting operation that gonna cause some
+   * properties to be dropped off.
+   */
+  // Because of the put request, some of the streams that got updated through
+  // put request, now doesn't have a edit or delete button on the stream list
+  // page because it overwrote that property where it deleted userId since we
+  // didn't passed that.
+  // But with patch request, it just updated and doesn't delte the properties that
+  // weren't mentioned
+  const response = await streams.patch(`/streams/${id}`, formValues);
 
   dispatch({ type: EDIT_STREAM, payload: response.data });
   // When we submit the form, the expection is that we're going to make a

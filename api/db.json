@@ -13,7 +13,7 @@
     {
       "id": "1bea",
       "title": "I Created This Stream",
-      "description": "This was made by me!",
+      "description": "This change was made by a PATCH request",
       "userId": "111615046771931402407"
     },
     {

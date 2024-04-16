@@ -11,12 +11,6 @@
       "description": "100 WPM in action"
     },
     {
-      "id": "1bea",
-      "title": "I Created This Stream",
-      "description": "This change was made by a PATCH request",
-      "userId": "111615046771931402407"
-    },
-    {
       "title": "Me Streaming Component Reuse!",
       "description": "Watch me refactor some components!!!",
       "id": "eb9a"

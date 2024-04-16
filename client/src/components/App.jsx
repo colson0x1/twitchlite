@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import StreamCreate from './streams/StreamCreate';
 import StreamEdit from './streams/StreamEdit';
 import StreamDelete from './streams/StreamDelete';
@@ -23,11 +23,29 @@ const App = () => {
         <div>
           <Header />
           {/* Using `exact` so that we don't accidentally match other routes */}
-          <Route path='/' exact component={StreamList} />
-          <Route path='/streams/new' exact component={StreamCreate} />
-          <Route path='/streams/edit/:id' exact component={StreamEdit} />
-          <Route path='/streams/delete/:id' exact component={StreamDelete} />
-          <Route path='/streams/show' exact component={StreamShow} />
+          {/* Switch right here is going to look at all this different routes and
+          its only going to show one of these given routes for any path that we
+          go to. So the first route inside of here that gets matched by given 
+          path is going to be shown and nothing else. So now whenever we go to 
+          /streams/new this route will be shown and React Router DOM is going to
+          say okay I found a route right here to show and I'm not gonna show
+          any other potential route. So even though technically /streams/:id
+          will match /streams/new because :something is just variable in url params, 
+          it will not be shown because its now wrapped inside of Switch. */}
+
+          {/* So remember anytime it feels like React Router DOM is showing a  
+          component that it shouldn't show. Chances are we got one of these little
+          query parameters on here llike /:id and that's probably what is throwing
+          off our route matching. */}
+
+          <Switch>
+            {' '}
+            <Route path='/' exact component={StreamList} />
+            <Route path='/streams/new' exact component={StreamCreate} />
+            <Route path='/streams/edit/:id' exact component={StreamEdit} />
+            <Route path='/streams/delete/:id' exact component={StreamDelete} />
+            <Route path='/streams/:id' exact component={StreamShow} />
+          </Switch>
         </div>
       </Router>
     </div>

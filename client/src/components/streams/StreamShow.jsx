@@ -65,6 +65,29 @@ class StreamShow extends React.Component {
     this.buildPlayer();
   }
 
+  // our stream show component, which is creating a FLV video player, when
+  // stream show component is unmounted from the DOM. in other words, when we
+  // navigate away from the StreamShow component, there is no code that tells
+  // this video player that we create to stop streaming video from our video
+  // server.
+  // So essentially, we're no longer looking at that video player, the video
+  // player is still attempting to download and process video. And that's why
+  // when we stop our stream, we eventually see this error on console log:
+  // `[MSEController] > MediaSource onSourceEnded`
+  // Its because that video player is still connected to that stream, and it
+  // was still trying to receive new information.
+  // We don't want to download a stream or process any of that video when the
+  // video player is not present on the screen.
+  // Any time we want to clean up some resources that were being used by our
+  // component, we have componentWillUnmount() lifecycle method
+  componentWillUnmount() {
+    // console.log('video player is unmounted');
+    // when we call destroy on the player, its going to essentially tell the
+    // player to stop attempting to stream video and detach itself from that
+    // video element that we had created down inside of that render method.
+    this.player.destroy();
+  }
+
   buildPlayer() {
     if (this.player || !this.props.stream) {
       return;

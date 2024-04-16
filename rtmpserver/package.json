@@ -1,0 +1,22 @@
+{
+  "name": "rtmpserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colson0x1/twitchlite.git"
+  },
+  "author": "COLSON",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/colson0x1/twitchlite/issues"
+  },
+  "homepage": "https://github.com/colson0x1/twitchlite#readme",
+  "dependencies": {
+    "node-media-server": "^2.6.6"
+  }
+}

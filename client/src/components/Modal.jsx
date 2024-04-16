@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import history from '../history';
 
 const Modal = (props) => {
   return ReactDOM.createPortal(
-    <div
-      onClick={() => history.push('/')}
-      className='ui dimmer modals visible active'
-    >
+    <div onClick={props.onDismiss} className='ui dimmer modals visible active'>
       {/* If we click just to the left of delete button, that still dismisses 
         the entire modal or navigates us away.
         Essentially this is very basic event handling. This is event propagation.
